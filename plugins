@@ -1,6 +1,11 @@
 call plug#begin('~/.nvim/plugged')
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'mattn/emmet-vim'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
+"Plug 'neoclide/coc-tsserver', {'do': 'yarn install --frozen-lockfile'}
 
 call plug#end()
 

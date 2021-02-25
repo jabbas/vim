@@ -1,0 +1,30 @@
+" Next window
+nnoremap <Tab>      :wincmd w<CR>
+
+" Previous window
+nnoremap <S-Tab>    :wincmd W<CR>
+
+" Next tab
+nnoremap <C-Tab>    gt<CR>
+
+" Previous tab
+nnoremap <C-S-Tab>  gT<CR>
+
+" Toggle Cursorcross
+nnoremap <F3>       :call Cursorcross()<CR>
+
+" Bubble move single lines
+nmap <C-Up> ddkP
+nmap <C-Down> ddp
+
+" Bubble move multiple lines
+vmap <C-Up> xkP`[V`]
+vmap <C-Down> xp`[V`]
+
+" Window jumping
+nnoremap <A-Right> <C-w>l
+nnoremap <A-Down> <C-w>j
+nnoremap <A-Up> <C-w>k
+nnoremap <A-Left> <C-w>h
+
+" vim: filetype=vim
