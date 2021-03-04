@@ -13,9 +13,15 @@ set incsearch
 set hlsearch
 set foldmethod=marker "folds between {{{ and }}}
 
+"Folding bg color change
+hi Folded ctermbg=234
+
 "rechecking whole file for syntax
 autocmd BufEnter * :syntax sync fromstart
 autocmd BufWritePost * :syntax sync fromstart
+
+" Remove spaces from line ends
+autocmd BufWritePre * :%s/\s\+$//e
 
 syntax on
 filetype on
@@ -23,7 +29,7 @@ filetype plugin on
 filetype indent on
 " }}}
 
-"global <TAB> and indentation config {{{ 
+"global <TAB> and indentation config {{{
 set tabstop=2
 set softtabstop=2     "tab between words
 set shiftwidth=2      "tab width
