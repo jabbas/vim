@@ -13,6 +13,12 @@ set incsearch
 set hlsearch
 set foldmethod=marker "folds between {{{ and }}}
 
+syntax on
+filetype on
+filetype plugin on
+filetype indent on
+" }}}
+
 "Folding bg color change
 hi Folded ctermbg=234
 
@@ -22,12 +28,6 @@ autocmd BufWritePost * :syntax sync fromstart
 
 " Remove spaces from line ends
 autocmd BufWritePre * :%s/\s\+$//e
-
-syntax on
-filetype on
-filetype plugin on
-filetype indent on
-" }}}
 
 "global <TAB> and indentation config {{{
 set tabstop=2
@@ -64,6 +64,10 @@ set splitright
 
 " Emmet {{{
 let g:user_emmet_leader_key = "<c-z>"
+" }}}
+
+" SimplyFold (python folding) {{{
+let g:SimplyFold_docstring_preview = 1
 " }}}
 
 " vim: ft=vim foldmethod=marker
