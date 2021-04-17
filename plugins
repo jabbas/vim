@@ -8,6 +8,9 @@ Plug 'pedrohdz/vim-yaml-folds'
 Plug 'tmhedberg/SimpylFold'
 Plug 'elzr/vim-json'
 Plug 'towolf/vim-helm'
+Plug 'martinda/Jenkinsfile-vim-syntax'
+
+"Plug 'neoclide/coc-tsserver', {'do': 'yarn install --frozen-lockfile'}
 
 call plug#end()
 
