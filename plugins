@@ -9,6 +9,9 @@ Plug 'tmhedberg/SimpylFold'
 Plug 'elzr/vim-json'
 Plug 'towolf/vim-helm'
 Plug 'martinda/Jenkinsfile-vim-syntax'
+Plug 'towolf/vim-helm'
+Plug 'ckipp01/nvim-jenkinsfile-linter'
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
 
 "Plug 'neoclide/coc-tsserver', {'do': 'yarn install --frozen-lockfile'}
 
