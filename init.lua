@@ -48,10 +48,10 @@ require('lualine').setup {
 -- require('jenkinsfile_linter').validate()
 require('nvim-treesitter.configs').setup {
   ensure_installed = {
-    'c', 'cpp', 'python', 'java', 'kotlin', 'javascript', 'go', 'ruby',
+    'c', 'cpp', 'python', 'java', 'kotlin', 'javascript', 'go', 'ruby', 'lua',
     'dockerfile', 'json', 'yaml', 'go', 'csv', 'ini', 'vim', 'html', 'xml',
     'gitcommit', 'gitignore', 'git_rebase', 'gitattributes',
-    'bash', 'awk', 'cmake', 'ninja', 'css', 'markdown', 'make',
+    'bash', 'awk', 'cmake', 'ninja', 'css', 'markdown', 'make', 'diff',
   },
   highlight = {
     enable = true,
