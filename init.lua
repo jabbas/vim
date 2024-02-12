@@ -3,6 +3,10 @@ require('keys')
 
 vim.cmd [[ colorscheme catppuccin-frappe ]]
 
+if vim.g.neovide then
+  vim.o.guifont = "Monego:h12"
+end
+
 -- main settings
   vim.opt.history=100
   vim.opt.mouse = 'a'        -- use mouse everywhere
@@ -61,3 +65,5 @@ require('nvim-treesitter.configs').setup {
     enable = true
   }
 }
+
+require('mason').setup()

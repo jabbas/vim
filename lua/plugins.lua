@@ -19,6 +19,7 @@ require('lazy').setup(
     'tmhedberg/SimpylFold',
     'sheerun/vim-polyglot',
     'nvim-lua/plenary.nvim',
+    { "williamboman/mason.nvim" },
     { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
     { 'nvim-lualine/lualine.nvim', dependencies = { 'nvim-tree/nvim-web-devicons' } },
     { 'nvim-telescope/telescope.nvim', tag = '0.1.5', requires = { "nvim-lua/plenary.nvim" } },
