@@ -31,6 +31,10 @@ require('lazy').setup(
     { 'nvim-telescope/telescope.nvim', tag = '0.1.5', requires = { "nvim-lua/plenary.nvim" } },
     { 'ckipp01/nvim-jenkinsfile-linter', requires = { "nvim-lua/plenary.nvim" } },
 
+    { 'ms-jpq/coq_nvim', branch = 'coq' , build = ":COQdeps" },
+    { 'ms-jpq/coq.artifacts', branch = 'artifacts' },
+    { 'ms-jpq/coq.thirdparty', branch = '3p' },
+
   --  'neoclide/coc.vim',
 
   --  { 'iamcco/markdown.preview.nvim',

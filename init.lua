@@ -88,5 +88,16 @@ lsp.groovyls.setup {}
 lsp.jsonls.setup {}
 lsp.bashls.setup {}
 lsp.yamlls.setup {}
-lsp.helm_ls.setup {}
+lsp.helm_ls.setup {
+  settings = {
+    ['helm-ls'] = {
+      logLevel = 'info',
+      yamlls = {
+        enabled = true,
+        completion = true,
+        hover = true,
+      }
+    }
+  }
+}
 lsp.neocmake.setup {}
