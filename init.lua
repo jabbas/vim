@@ -70,11 +70,6 @@ require 'jenkinsfile_linter'.validate()
 require 'mason'.setup()
 require 'mason-lspconfig'.setup()
 
-require 'lint'.linters_by_ft = {
-  sh = {'shellcheck'},
-  bash = {'shellcheck'},
-  zsh = {'shellcheck'},
-}
 vim.api.nvim_create_autocmd({"BufWritePost"}, { callback = function() require('lint').try_lint() end })
 
 local lsp = require 'lspconfig'

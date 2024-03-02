@@ -19,17 +19,39 @@ require('lazy').setup(
     'tmhedberg/SimpylFold',
     'sheerun/vim-polyglot',
     'nvim-lua/plenary.nvim',
+    { "mfussenegger/nvim-lint",
+      config = function()
+        local lint = require('lint')
+
+        lint.linters_by_ft = {
+          sh = {'shellcheck'},
+          bash = {'shellcheck'},
+          zsh = {'shellcheck'},
+        }
+
+      end
+    },
     {
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
       "neovim/nvim-lspconfig",
 
-      "mfussenegger/nvim-lint",
     },
     { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
     { 'nvim-lualine/lualine.nvim', dependencies = { 'nvim-tree/nvim-web-devicons' } },
-    { 'nvim-telescope/telescope.nvim', tag = '0.1.5', requires = { "nvim-lua/plenary.nvim" } },
-    { 'ckipp01/nvim-jenkinsfile-linter', requires = { "nvim-lua/plenary.nvim" } },
+
+    {
+      'nvim-telescope/telescope.nvim',
+      tag = '0.1.5',
+      dependencies = { "nvim-lua/plenary.nvim" },
+      config = function()
+        vim.keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "Find files in cwd" })
+        vim.keymap.set("n", "<leader>fg", "<cmd>Telescope live_grep<cr>", { desc = "Find files that contains" })
+        vim.keymap.set("n", "<leader>fg", "<cmd>Telescope resume<cr>", { desc = "Resume previous" })
+      end
+    },
+
+    { 'ckipp01/nvim-jenkinsfile-linter', dependencies = { "nvim-lua/plenary.nvim" } },
 
     { 'ms-jpq/coq_nvim', branch = 'coq' , build = ":COQdeps" },
     { 'ms-jpq/coq.artifacts', branch = 'artifacts' },

@@ -5,14 +5,6 @@ vim.g.user_emmet_leader_key = '<c-z>'
 vim.cmd('vnoremap < <gv')
 vim.cmd('vnoremap > >gv')
 
-function map(mode, key, command)
-  vim.api.nvim_set_keymap(mode, key, command, {noremap = true, silent = true})
-end
-function nmap(key, command)
-  map('n', shortcut, command)
-end
--- nmap('<Tab>', '\:wincmd w<CR>')
-
 -- split jump - Tab
 vim.api.nvim_set_keymap('n', '<Tab>', ':wincmd w<CR>', { noremap = true })
 vim.api.nvim_set_keymap('n', '<S-Tab>', ':wincmd W<CR>', { noremap = true })
