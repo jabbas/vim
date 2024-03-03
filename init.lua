@@ -64,34 +64,3 @@ require 'nvim-treesitter.configs'.setup {
     enable = true
   }
 }
-
-require 'mason'.setup()
-require 'mason-lspconfig'.setup({
-  --ensure_installed = lsp_servers,
-  automatic_installation = true,
-})
-
-local lsp = require 'lspconfig'
-lsp.lua_ls.setup {
-  settings = { Lua = { diagnostics = { globals = {'vim'} } } }
-}
-
-lsp.dockerls.setup {}
-lsp.pyright.setup {}
-lsp.groovyls.setup {}
-lsp.jsonls.setup {}
-lsp.bashls.setup {}
-lsp.yamlls.setup {}
-lsp.helm_ls.setup {
-  settings = {
-    ['helm-ls'] = {
-      logLevel = 'info',
-      yamlls = {
-        enabled = true,
-        completion = true,
-        hover = true,
-      }
-    }
-  }
-}
-lsp.neocmake.setup {}

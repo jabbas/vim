@@ -34,6 +34,7 @@ require('lazy').setup(
           sh = {'shellcheck'},
           bash = {'shellcheck'},
           zsh = {'shellcheck'},
+          yaml = {'yamllint'},
         }
 
         vim.api.nvim_create_autocmd({"BufWritePost"}, { callback = function() require('lint').try_lint() end })
@@ -42,8 +43,64 @@ require('lazy').setup(
 
     {
       "williamboman/mason.nvim",
+      config = function(_, opts)
+        require('mason').setup(opts)
+      end
+    },
+
+    {
       "williamboman/mason-lspconfig.nvim",
+      config = function()
+        require('mason-lspconfig').setup({
+          ensure_installed = {
+            "bashls",
+            "clang-format",
+            "clangd",
+            "dockerls",
+            "groovyls",
+            "helm_ls",
+            "jsonls",
+            "lua_ls",
+            "neocmake",
+            "pyright",
+            "shellcheck",
+            "typos",
+            "yamllint",
+            "yamlls",
+          },
+          automatic_installation = true,
+        })
+      end
+    },
+
+    {
       "neovim/nvim-lspconfig",
+      config = function()
+        local lsp = require 'lspconfig'
+        lsp.lua_ls.setup {
+          settings = { Lua = { diagnostics = { globals = {'vim'} } } }
+        }
+
+        lsp.dockerls.setup {}
+        lsp.pyright.setup {}
+        lsp.groovyls.setup {}
+        lsp.jsonls.setup {}
+        lsp.bashls.setup {}
+        lsp.yamlls.setup {}
+        lsp.helm_ls.setup {
+          settings = {
+            ['helm-ls'] = {
+              logLevel = 'info',
+              yamlls = {
+                enabled = true,
+                completion = true,
+                hover = true,
+              }
+            }
+          }
+        }
+        lsp.neocmake.setup {}
+      end
     },
 
     { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
