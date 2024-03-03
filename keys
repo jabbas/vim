@@ -1,9 +1,0 @@
-" Bubble move single lines
-nmap <C-Up> ddkP
-nmap <C-Down> ddp
-
-" Bubble move multiple lines
-vmap <C-Up> xkP`[V`]
-vmap <C-Down> xp`[V`]
-
-" vim: filetype=vim
