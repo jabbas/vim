@@ -65,12 +65,11 @@ require 'nvim-treesitter.configs'.setup {
   }
 }
 
-require 'jenkinsfile_linter'.validate()
-
 require 'mason'.setup()
-require 'mason-lspconfig'.setup()
-
-vim.api.nvim_create_autocmd({"BufWritePost"}, { callback = function() require('lint').try_lint() end })
+require 'mason-lspconfig'.setup({
+  --ensure_installed = lsp_servers,
+  automatic_installation = true,
+})
 
 local lsp = require 'lspconfig'
 lsp.lua_ls.setup {
