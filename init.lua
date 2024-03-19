@@ -16,8 +16,8 @@ vim.cmd('colorscheme catppuccin-frappe')
   vim.opt.incsearch = true
   vim.opt.hlsearch = true
 
-  vim.opt.foldmethod = 'expr'
-  vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
+--  vim.opt.foldmethod = 'expr'
+--  vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
 
 -- indentation settings
   vim.opt.tabstop = 2
@@ -42,25 +42,59 @@ vim.cmd('colorscheme catppuccin-frappe')
 -- Remove spaces from line ends
   vim.cmd('autocmd BufWritePre * :%s/\\s\\+$//e')
 
-require 'lualine'.setup {
-  options = {
-    theme = 'codedark',
-    icons_enabled = true
+local lint = require('lint')
+lint.linters_by_ft = {
+  sh = {'shellcheck'},
+  bash = {'shellcheck'},
+  zsh = {'shellcheck'},
+  yaml = {'yamllint'},
+}
+vim.api.nvim_create_autocmd({"BufWritePost"}, { callback = function() require('lint').try_lint() end })
+
+local masonlspconfig = require('mason-lspconfig')
+masonlspconfig.setup({
+  ensure_installed = {
+    "bashls",
+    "dockerls",
+    "groovyls",
+    "helm_ls",
+    "jsonls",
+    "lua_ls",
+    "yamlls",
+  },
+  automatic_installation = true,
+})
+
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.foldingRange = {
+  dynamicRegistration = false,
+  lineFoldingOnly = true
+}
+
+masonlspconfig.setup_handlers {
+  function(lsp_name)
+    require('lspconfig')[lsp_name].setup {
+      capabilities = capabilities,
+    }
+  end
+}
+
+local lsp = require 'lspconfig'
+lsp.lua_ls.setup {
+  settings = { Lua = { diagnostics = { globals = {'vim'} } } }
+}
+
+lsp.helm_ls.setup {
+  settings = {
+    ['helm-ls'] = {
+      logLevel = 'info',
+      yamlls = {
+        enabled = true,
+        completion = true,
+        hover = true,
+      }
+    }
   }
 }
 
-require 'nvim-treesitter.configs'.setup {
-  ensure_installed = {
-    'c', 'cpp', 'python', 'java', 'kotlin', 'javascript', 'go', 'ruby', 'lua',
-    'dockerfile', 'json', 'yaml', 'go', 'csv', 'ini', 'vim', 'html', 'xml',
-    'gitcommit', 'gitignore', 'git_rebase', 'gitattributes',
-    'bash', 'awk', 'cmake', 'ninja', 'css', 'markdown', 'make', 'diff',
-  },
-  highlight = {
-    enable = true,
-    additional_vim_regex_highlighting = false,
-  },
-  indent = {
-    enable = true
-  }
-}
+

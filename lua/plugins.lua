@@ -27,18 +27,16 @@ require('lazy').setup(
     'nvim-tree/nvim-web-devicons',
 
     { "mfussenegger/nvim-lint",
-      config = function()
-        local lint = require('lint')
-
-        lint.linters_by_ft = {
-          sh = {'shellcheck'},
-          bash = {'shellcheck'},
-          zsh = {'shellcheck'},
-          yaml = {'yamllint'},
-        }
-
-        vim.api.nvim_create_autocmd({"BufWritePost"}, { callback = function() require('lint').try_lint() end })
-      end
+      --config = function()
+      --  local lint = require('lint')
+      --  lint.linters_by_ft = {
+      --    sh = {'shellcheck'},
+      --    bash = {'shellcheck'},
+      --    zsh = {'shellcheck'},
+      --    yaml = {'yamllint'},
+      --  }
+      --  vim.api.nvim_create_autocmd({"BufWritePost"}, { callback = function() require('lint').try_lint() end })
+      --end
     },
 
     {
@@ -50,61 +48,98 @@ require('lazy').setup(
 
     {
       "williamboman/mason-lspconfig.nvim",
-      config = function()
-        require('mason-lspconfig').setup({
-          ensure_installed = {
-            "bashls",
-            "clang-format",
-            "clangd",
-            "dockerls",
-            "groovyls",
-            "helm_ls",
-            "jsonls",
-            "lua_ls",
-            "neocmake",
-            "pyright",
-            "shellcheck",
-            "typos",
-            "yamllint",
-            "yamlls",
-          },
-          automatic_installation = true,
-        })
-      end
+      --config = function()
+      --  local masonlspconfig = require('mason-lspconfig')
+      --  masonlspconfig.setup({
+      --    ensure_installed = {
+      --      "bashls",
+      --      "dockerls",
+      --      "groovyls",
+      --      "helm_ls",
+      --      "jsonls",
+      --      "lua_ls",
+      --      "yamlls",
+      --    },
+      --    automatic_installation = true,
+      --  })
+      --  masonlspconfig.setup_handlers {
+      --    function(lsp_name)
+      --      require('lspconfig')[lsp_name].setup {}
+      --    end
+      --  }
+      --end
     },
 
     {
       "neovim/nvim-lspconfig",
-      config = function()
-        local lsp = require 'lspconfig'
-        lsp.lua_ls.setup {
-          settings = { Lua = { diagnostics = { globals = {'vim'} } } }
-        }
+      --config = function()
+      --  local lsp = require 'lspconfig'
+      --  lsp.lua_ls.setup {
+      --    settings = { Lua = { diagnostics = { globals = {'vim'} } } }
+      --  }
 
-        lsp.dockerls.setup {}
-        lsp.pyright.setup {}
-        lsp.groovyls.setup {}
-        lsp.jsonls.setup {}
-        lsp.bashls.setup {}
-        lsp.yamlls.setup {}
-        lsp.helm_ls.setup {
-          settings = {
-            ['helm-ls'] = {
-              logLevel = 'info',
-              yamlls = {
-                enabled = true,
-                completion = true,
-                hover = true,
-              }
-            }
-          }
-        }
-        lsp.neocmake.setup {}
-      end
+      --  lsp.helm_ls.setup {
+      --    settings = {
+      --      ['helm-ls'] = {
+      --        logLevel = 'info',
+      --        yamlls = {
+      --          enabled = true,
+      --          completion = true,
+      --          hover = true,
+      --        }
+      --      }
+      --    }
+      --  }
+      --end
     },
 
-    { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
-    { 'nvim-lualine/lualine.nvim', dependencies = { 'nvim-tree/nvim-web-devicons' } },
+    { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate",
+      config = function()
+        require 'nvim-treesitter.configs'.setup {
+          ensure_installed = {
+            'c', 'cpp', 'python', 'java', 'kotlin', 'javascript', 'go', 'ruby', 'lua',
+            'dockerfile', 'json', 'yaml', 'go', 'groovy', 'csv', 'ini', 'vim', 'html', 'xml',
+            'gitcommit', 'gitignore', 'git_rebase', 'gitattributes',
+            'bash', 'awk', 'cmake', 'ninja', 'css', 'markdown', 'make', 'diff',
+          },
+          highlight = {
+            enable = true,
+            additional_vim_regex_highlighting = false,
+          },
+          indent = {
+            enable = true
+          }
+        }
+        vim.treesitter.language.register('groovy', 'Jenkinsfile')
+      end
+
+    },
+    { 'nvim-lualine/lualine.nvim', dependencies = { 'nvim-tree/nvim-web-devicons' },
+      config = function()
+        require 'lualine'.setup {
+          options = {
+            theme = 'auto',
+            icons_enabled = true,
+          },
+          sections = {
+            lualine_a = {'mode'},
+            lualine_b = {'branch', 'diff', 'diagnostics'},
+            lualine_c = { {'filename', path=1 } },
+            lualine_x = {'encoding', 'fileformat', 'filetype'},
+            lualine_y = {'progress'},
+            lualine_z = {'location'}
+          },
+          inactive_sections = {
+            lualine_a = {},
+            lualine_b = {},
+            lualine_c = { {'filename', path=1 } },
+            lualine_x = {'location'},
+            lualine_y = {},
+            lualine_z = {}
+          },
+        }
+      end
+    },
 
     {
       'nvim-telescope/telescope.nvim',
@@ -140,6 +175,28 @@ require('lazy').setup(
         vim.g.coq_settings = {
           auto_start = 'shut-up',
         }
+      end
+    },
+
+    { 'kevinhwang91/nvim-ufo', dependencies = { 'kevinhwang91/promise-async' },
+      config = function()
+        vim.o.foldcolumn = '1'
+        vim.o.foldlevel = 99
+        vim.o.foldlevelstart = 99
+        vim.o.foldenable = true
+
+        vim.keymap.set('n', 'zR', require('ufo').openAllFolds)
+        vim.keymap.set('n', 'zM', require('ufo').closeAllFolds)
+        vim.keymap.set('n', 'zr', require('ufo').openFoldsExceptKinds)
+        vim.keymap.set('n', 'zm', require('ufo').closeFoldsWith)
+
+        require('ufo').setup()
+     end
+    },
+
+    { 'rmagatti/auto-session',
+      config = function()
+        require('auto-session').setup()
       end
     },
 
