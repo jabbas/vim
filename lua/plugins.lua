@@ -11,13 +11,15 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-vim.g.coq_settings = {
-  auto_start = 'shut-up'
-}
-
 require('lazy').setup(
   {
     { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
+
+    { 'NvChad/nvim-colorizer.lua',
+      config = function()
+        require("colorizer").setup()
+      end
+    },
 
     'mattn/emmet-vim',
     'pedrohdz/vim-yaml-folds',
@@ -39,15 +41,13 @@ require('lazy').setup(
       --end
     },
 
-    {
-      "williamboman/mason.nvim",
+    { "williamboman/mason.nvim",
       config = function(_, opts)
         require('mason').setup(opts)
       end
     },
 
-    {
-      "williamboman/mason-lspconfig.nvim",
+    { "williamboman/mason-lspconfig.nvim",
       --config = function()
       --  local masonlspconfig = require('mason-lspconfig')
       --  masonlspconfig.setup({
@@ -70,8 +70,7 @@ require('lazy').setup(
       --end
     },
 
-    {
-      "neovim/nvim-lspconfig",
+    { "neovim/nvim-lspconfig",
       --config = function()
       --  local lsp = require 'lspconfig'
       --  lsp.lua_ls.setup {
@@ -114,6 +113,7 @@ require('lazy').setup(
       end
 
     },
+
     { 'nvim-lualine/lualine.nvim', dependencies = { 'nvim-tree/nvim-web-devicons' },
       config = function()
         require 'lualine'.setup {
@@ -141,8 +141,7 @@ require('lazy').setup(
       end
     },
 
-    {
-      'nvim-telescope/telescope.nvim',
+    { 'nvim-telescope/telescope.nvim',
       tag = '0.1.5',
       dependencies = { "nvim-lua/plenary.nvim" },
       config = function(_, opts)
@@ -156,19 +155,12 @@ require('lazy').setup(
 
     { 'ckipp01/nvim-jenkinsfile-linter', dependencies = { "nvim-lua/plenary.nvim" } },
 
-    { 'github/copilot.vim', build = ":Copilot auth" },
+    -- { 'github/copilot.vim', build = ":Copilot auth" },
 
-    {
-      'ms-jpq/coq_nvim', branch = 'coq' , build = ":COQdeps",
+    { 'ms-jpq/coq_nvim', branch = 'coq' , build = ":COQdeps",
       dependencies = {
         { 'ms-jpq/coq.artifacts', branch = 'artifacts' },
-        { 'ms-jpq/coq.thirdparty', branch = '3p', lazy = false,
-          config = function()
-            require('coq_3p') {
-              { src = "copilot", short_name = "COP", accept_key = "<c-f>" },
-            }
-          end
-        },
+        { 'ms-jpq/coq.thirdparty', branch = '3p', lazy = false },
       },
 
       config = function()
@@ -199,6 +191,24 @@ require('lazy').setup(
         require('auto-session').setup()
       end
     },
+
+    { 'rmagatti/alternate-toggler',
+      config = function()
+        require('alternate-toggler').setup {
+          alternates = {
+            ["=="] = "!="
+          }
+        }
+
+        vim.keymap.set(
+          "n",
+          "<leader><space>",
+          "<cmd>lua require('alternate-toggler').toggleAlternate()<CR>"
+        )
+      end,
+      event = { "BufReadPost" },
+    },
+
 
   --  'neoclide/coc.vim',
 

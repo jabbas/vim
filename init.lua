@@ -40,7 +40,7 @@ vim.cmd('colorscheme catppuccin-frappe')
   vim.g.SimplyFold_docstring_preview = 1
 
 -- Remove spaces from line ends
-  vim.cmd('autocmd BufWritePre * :%s/\\s\\+$//e')
+vim.cmd('autocmd BufWritePre * :%s/\\s\\+$//e')
 
 local lint = require('lint')
 lint.linters_by_ft = {
@@ -54,12 +54,15 @@ vim.api.nvim_create_autocmd({"BufWritePost"}, { callback = function() require('l
 local masonlspconfig = require('mason-lspconfig')
 masonlspconfig.setup({
   ensure_installed = {
+    "ansiblels",
+    "ast_grep",
     "bashls",
     "dockerls",
     "groovyls",
     "helm_ls",
     "jsonls",
     "lua_ls",
+    "pyright",
     "yamlls",
   },
   automatic_installation = true,
