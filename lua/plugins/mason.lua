@@ -21,6 +21,7 @@ return {
           "lua_ls",
           "pyright",
           "yamlls",
+          "vimls",
         },
         automatic_installation = true,
       })
@@ -57,6 +58,17 @@ return {
           }
         }
       }
+
+      lsp.yamlls.setup {
+        settings = {
+          yaml = {
+            schemas = {
+              kubernetes = "k8s-*.yaml",
+            }
+          }
+        }
+      }
+
     end
   },
 
