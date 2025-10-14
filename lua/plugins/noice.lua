@@ -5,13 +5,10 @@ return {
     "MunifTanjim/nui.nvim",
     "rcarriga/nvim-notify",
   },
-
-  config = function()
-    require("noice").setup({
-      presets = {
-        bottom_search = true,
-        command_palette = true,
-      }
-    })
-  end
+  opts = {
+    presets = {
+      bottom_search = true,
+      command_palette = false,
+    }
+  }
 }

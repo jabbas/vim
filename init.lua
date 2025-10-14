@@ -1,5 +1,5 @@
-require('lazy_plugin')
-require('keys')
+require("config.lazy")
+require("keys")
 
 if (vim.g.neovide) then
   vim.o.guifont = "Monego:h12"

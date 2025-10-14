@@ -1,75 +1,67 @@
 return {
-
+  { "neovim/nvim-lspconfig" },
   { "williamboman/mason.nvim",
-    config = function(_, opts)
-      require('mason').setup(opts)
+    lazy = false,
+    config = function()
+      require("mason").setup({})
     end
   },
+  {
+    "williamboman/mason-lspconfig.nvim",
 
-  { "williamboman/mason-lspconfig.nvim",
-    config = function()
-      local masonlspconfig = require('mason-lspconfig')
-      masonlspconfig.setup({
-        ensure_installed = {
-          "ansiblels",
-          "ast_grep",
-          "bashls",
-          "dockerls",
-          "groovyls",
-          "helm_ls",
-          "jsonls",
-          "lua_ls",
-          "pyright",
-          "yamlls",
-          "vimls",
-        },
-        automatic_installation = true,
-      })
-      masonlspconfig.setup_handlers {
-        function(lsp_name)
+    dependencies = {
+      "williamboman/mason.nvim",
+      "neovim/nvim-lspconfig",
+    },
 
-          local capabilities = vim.lsp.protocol.make_client_capabilities()
-          capabilities.textDocument.foldingRange = {
-            dynamicRegistration = false,
-            lineFoldingOnly = true
-          }
+    opts = {
+      -- A list of servers to install automatically upon startup.
+      -- This is the main purpose of mason-lspconfig.
+      automatic_installation = true, -- Auto-install LSPs listed in ensure_installed
+      ensure_installed = {
+        "ansiblels",
+        "ast_grep",
+        "bashls",
+        "cssls",
+        "dockerls",
+        "groovyls",
+        "helm_ls",
+        "html",
+        "jsonls",
+        "lua_ls",
+        "pyright",
+        "ts_ls",
+        "vimls",
+        "yamlls",
+      },
 
-          require('lspconfig')[lsp_name].setup {
-            capabilities = capabilities,
-          }
-        end
-      }
-    end
-  },
-
-  { "neovim/nvim-lspconfig",
-    config = function()
-      local lsp = require 'lspconfig'
-
-      lsp.helm_ls.setup {
-        settings = {
-          ['helm-ls'] = {
-            logLevel = 'info',
-            yamlls = {
-              enabled = true,
-              completion = true,
-              hover = true,
+      -- Configuration to be passed to lspconfig for the servers that have been installed.
+      -- The keys here are the server names (e.g., 'lua_ls'), and the values are the
+      -- setup tables (e.g., options for keymaps, capabilities, etc.).
+      -- This key is optional.
+      handlers = {
+        -- Example handler for setting up specific server options (optional)
+        ["yamlls"] = function()
+          require("lspconfig").yamlls.setup {
+            settings = {
+              yaml = {
+                schemas = {
+                  kubernetes = "k8s-*.yaml",
+                }
+              }
             }
           }
-        }
-      }
+        end,
 
-      lsp.yamlls.setup {
-        settings = {
-          yaml = {
-            schemas = {
-              kubernetes = "k8s-*.yaml",
-            }
+        ["helm_ls"] = function()
+          require("lspconfig").helm_ls.setup {
+            settings = {
+            },
           }
-        }
-      }
+        end,
 
-    end
-  },
+      },
+    },
 
+  }
 }

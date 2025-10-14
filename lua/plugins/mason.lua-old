@@ -1,0 +1,82 @@
+return {
+
+  { "williamboman/mason.nvim",
+    config = function(_, opts)
+      require('mason').setup(opts)
+    end
+  },
+
+  { "williamboman/mason-lspconfig.nvim",
+    config = function()
+      local masonlspconfig = require('mason-lspconfig')
+      masonlspconfig.setup({
+        ensure_installed = {
+          "ansiblels",
+          "ast_grep",
+          "bashls",
+          "dockerls",
+          "groovyls",
+          "helm_ls",
+          "jsonls",
+          "lua_ls",
+          "pyright",
+          "yamlls",
+          "vimls",
+        },
+        automatic_installation = true,
+      })
+      masonlspconfig.setup_handlers {
+        function(lsp_name)
+
+          local capabilities = vim.lsp.protocol.make_client_capabilities()
+          capabilities.textDocument.foldingRange = {
+            dynamicRegistration = false,
+            lineFoldingOnly = true
+          }
+
+          require('lspconfig')[lsp_name].setup {
+            capabilities = capabilities,
+          }
+        end
+      }
+    end
+  },
+
+  { "neovim/nvim-lspconfig",
+    config = function()
+      local lsp = require 'lspconfig'
+
+      lsp.helm_ls.setup {
+        settings = {
+          ['helm-ls'] = {
+            logLevel = 'info',
+            yamlls = {
+              enabled = true,
+              config = {
+                schemas = {
+                  kubernetes = "templates/**",
+                },
+                completion = true,
+                hover = true,
+                keyOrdering = true,
+                -- any other config from https://github.com/redhat-developer/yaml-language-server#language-server-settings
+              },
+            }
+          }
+        }
+      }
+
+      lsp.yamlls.setup {
+        settings = {
+          yaml = {
+            schemas = {
+              kubernetes = "k8s-*.yaml",
+            }
+          }
+        }
+      }
+
+    end
+  },
+
+}
