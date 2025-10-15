@@ -30,6 +30,7 @@ return {
         "jsonls",
         "lua_ls",
         "pyright",
+        "shellcheck",
         "ts_ls",
         "vimls",
         "yamlls",
